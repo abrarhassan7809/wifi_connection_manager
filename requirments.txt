@@ -1,2 +1,5 @@
 subprocess.run
 tk
+pywifi
+wifi
+lib-platform
