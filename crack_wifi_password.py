@@ -1,36 +1,42 @@
-import itertools
-import string
-import time
+# import tkinter as tk
+# import subprocess
+#
+# def scan_networks():
+#     cmd = "nmcli -f SSID device wifi list"
+#     process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+#     output, _ = process.communicate()
+#     output = output.decode("utf-8")
+#     available_networks = output.split('\n')[1:]
+#     network_listbox.delete(0, tk.END)
+#     for network in available_networks:
+#         network_listbox.insert(tk.END, network)
+#
+# def connect_to_network():
+#     selected_index = network_listbox.curselection()
+#     if selected_index:
+#         selected_network = network_listbox.get(selected_index)
+#         selected_network = selected_network.strip()  # Remove trailing whitespace
+#         cmd = f"nmcli device wifi connect '{selected_network}' password ''"
+#         subprocess.run(cmd, shell=True)
+#
+# # Create the Tkinter window
+# window = tk.Tk()
+# window.title("Wi-Fi Network Scanner")
+# window.geometry("300x400")
+#
+# # Create the Scan button
+# scan_button = tk.Button(window, text="Scan Wi-Fi", command=scan_networks)
+# scan_button.pack()
+#
+# # Create and populate the network listbox
+# network_listbox = tk.Listbox(window)
+# network_listbox.pack()
+#
+# # Create the Connect button
+# connect_button = tk.Button(window, text="Connect", command=connect_to_network)
+# connect_button.pack()
+#
+# # Start the Tkinter event loop
+# window.mainloop()
 
-
-def password_wordlist(start_range=8, end_range=10, file_name="brute.txt"):
-    # string with all characters needed or have potential for being password
-    chars = string.ascii_lowercase + string.ascii_uppercase + string.digits + '@' + '#' + '$' + '.'
-    # attempts counter
-    attempts = 0
-    # open file
-    f = open(file_name, 'a')
-
-    for password_length in range(start_range, end_range):
-        for guess in itertools.product(chars, repeat=password_length):
-            attempts += 1
-            guess = ''.join(guess)
-            f.write(guess)  # write in file
-            f.write("\n")
-            print(guess, attempts)
-
-    # close file
-    f.close()
-
-
-start_range = 8
-end_range = 10
-file_name = "brute_password_list.txt"
-
-start_time = time.time()
-# Main function Call
-password_wordlist(start_range, end_range, file_name)
-
-end_time = time.time()
-
-print(end_time - start_time)
+# ========================
