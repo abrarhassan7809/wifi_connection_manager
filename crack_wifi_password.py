@@ -40,3 +40,30 @@
 # window.mainloop()
 
 # ========================
+import nmap
+
+
+def get_connected_devices():
+    # Create a new instance of the PortScanner object
+    nm = nmap.PortScanner()
+
+    # Scan the network to retrieve connected devices
+    nm.scan(hosts='192.168.0.0/24', arguments='-sn')
+
+    # Get the list of connected devices
+    connected_devices = []
+    for host in nm.all_hosts():
+        if 'mac' in nm[host]['addresses']:
+            ip = nm[host]['addresses']['ipv4']
+            mac = nm[host]['addresses']['mac']
+            connected_devices.append((ip, mac))
+
+    return connected_devices
+
+
+# Call the function to get the connected devices
+devices = get_connected_devices()
+
+# Print the IP addresses of connected devices
+for device in devices:
+    print("IP Address:", device[0])
