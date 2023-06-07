@@ -8,7 +8,7 @@ root.withdraw()
 
 
 def check_wifi_connection():
-    output = subprocess.run(["nmcli", "-t", "-f", "NAME", "connection", "show", "--active"], capture_output=True, text=True)
+    output = subprocess.run(["iwgetid", "-r"], capture_output=True, text=True)
     connected_network = output.stdout.strip()
     if connected_network:
         return True
@@ -66,7 +66,7 @@ def connect_with_password(network, current_network, password):
 
 
 def get_connected_network():
-    output = subprocess.run(["nmcli", "-t", "-f", "NAME", "connection", "show", "--active"], capture_output=True, text=True)
+    output = subprocess.run(["iwgetid", "-r"], capture_output=True, text=True)
     connected_network = output.stdout.strip()
     return connected_network
 
@@ -80,12 +80,12 @@ def get_saved_networks():
 def get_wifi_networks():
     current_os = platform.system()
     if current_os == 'Linux':
-        if subprocess.run(["which", "nmcli"], capture_output=True).returncode == 0:
-            output = subprocess.run(["nmcli", "-f", "SSID", "dev", "wifi"], capture_output=True, text=True)
-            networks = output.stdout.splitlines()[1:]
-            return [network.strip() for network in networks if network.strip()]
+        if subprocess.run(["which", "iwlist"], capture_output=True).returncode == 0:
+            output = subprocess.run(["iwlist", "scan"], capture_output=True, text=True)
+            networks = output.stdout.split("ESSID:")[1:]
+            return [network.split('"')[1] for network in networks]
         else:
-            print("nmcli command not found.")
+            print("iwlist command not found.")
             return []
     elif current_os == 'Darwin':
         if subprocess.run(["which", "airport"], capture_output=True).returncode == 0:
@@ -164,7 +164,7 @@ def on_forget_password():
 wifi_networks = get_wifi_networks()
 connected_networks = get_saved_networks()
 
-if not check_wifi_connection():
+if check_wifi_connection():
     if wifi_networks:
         selected_network = messagebox.askquestion("WiFi Networks", "Click 'Yes' to connect to a network.")
         if selected_network == 'yes':
@@ -213,6 +213,3 @@ if not check_wifi_connection():
         messagebox.showinfo("WiFi Networks", "No WiFi networks found.")
 else:
     messagebox.showinfo("WiFi Networks", "WiFi network already connected")
-
-# ==========3============
-
