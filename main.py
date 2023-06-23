@@ -164,7 +164,7 @@ def on_forget_password():
 wifi_networks = get_wifi_networks()
 connected_networks = get_saved_networks()
 
-if check_wifi_connection():
+if not check_wifi_connection():
     if wifi_networks:
         selected_network = messagebox.askquestion("WiFi Networks", "Click 'Yes' to connect to a network.")
         if selected_network == 'yes':
