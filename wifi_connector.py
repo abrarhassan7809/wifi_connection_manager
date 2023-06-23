@@ -16,7 +16,7 @@ def check_wifi_connection():
         return False
 
 
-if check_wifi_connection():
+if not check_wifi_connection():
     def connect_to_network(network):
         current_network = get_connected_network()
         saved_networks = get_saved_networks()
